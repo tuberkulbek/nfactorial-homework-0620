@@ -45,12 +45,15 @@ function App() {
     }
 
     const handleItemReComplete = (item) => {
-        console.log(item)
-        todoAPI.reComplete(item, setItems, setCompletedTD)
+        if(filteredArray[0].completed_date){
+            todoAPI.reComplete(item, setItems, setCompletedTD)
+        }
     };
 
     const handleItemComplete = ({id}) => {
-        todoAPI.complete(id, setItems, setCompletedTD)
+        if(filteredArray[0].priority){
+            todoAPI.complete(id, setItems, setCompletedTD)
+        }
     };
 
     const handleAddItem = () => {
@@ -63,7 +66,6 @@ function App() {
     };
 
     const handleItemDone = (item) => {
-        console.log(item)
         todoAPI.doneTask(item, setItems)
     };
 
@@ -83,7 +85,6 @@ function App() {
                 ? items.filter((item) => item.priority === 2)
                 : filterType === "completed"
                     ? completedTD.filter((item) => item) : items.filter((item) => item.priority === 1);
-
 
     useEffect(() => {
         todoAPI.getTasks(setItems)
@@ -142,7 +143,7 @@ function App() {
                 <button
                     type="button"
                     onClick={() => handleItemComplete(item)}
-                    className="btn btn-outline-success btn-sm float-right"
+                    className={`btn btn-outline-success btn-sm float-right ${filteredArray[0].priority?"":"disabled"}`}
                 >
                   <i className="fa fa-check"/>
                 </button>
@@ -158,7 +159,7 @@ function App() {
                   <button
                       type="button"
                       onClick={() => handleItemReComplete(item)}
-                      className="btn btn-outline-success btn-sm float-right"
+                      className={`btn btn-outline-success btn-sm float-right ${filteredArray[0].completed_date?"":"disabled"}`}
                   >
                   <i className="fa fa-refresh"/>
                 </button>
